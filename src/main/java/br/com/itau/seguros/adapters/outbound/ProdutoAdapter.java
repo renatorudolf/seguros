@@ -4,42 +4,40 @@ import br.com.itau.seguros.adapters.outbound.entity.ProdutoEntity;
 import br.com.itau.seguros.adapters.outbound.mapper.ProdutoMapper;
 import br.com.itau.seguros.adapters.outbound.repository.ProdutoRepository;
 import br.com.itau.seguros.core.domain.ProdutoDTO;
+import br.com.itau.seguros.core.logger.LogHelper;
 import br.com.itau.seguros.ports.out.ProdutoPort;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.Objects;
+import java.util.logging.Level;
 
 @Component
 public class ProdutoAdapter implements ProdutoPort {
-
-    Logger logger = LoggerFactory.getLogger(ProdutoAdapter.class);
 
     @Autowired
     private ProdutoRepository produtoRepository;
 
     @Override
-    public ProdutoDTO cadastrar(ProdutoDTO produtoDTO) {
-        logger.info("Cadastrando seguro");
+    public ProdutoDTO cadastrar(ProdutoDTO produtoDTO, String correlationId) {
+        LogHelper.printLog(Level.INFO, "Cadastrando seguro", correlationId, ProdutoAdapter.class);
         var produtoEntity = produtoRepository.save(ProdutoMapper.INSTANCE.produtoDtoToProdutoEntity(produtoDTO));
-        logger.info("Seguro cadastrado com sucesso");
+        LogHelper.printLog(Level.INFO, "Seguro cadastrado com sucesso", correlationId, ProdutoAdapter.class);
         return ProdutoMapper.INSTANCE.produtoEntityToProdutoDto(produtoEntity);
     }
 
     @Override
-    public ProdutoDTO atualizar(ProdutoDTO produtoDTO, String categoria) {
-        logger.info("Atualizando seguro");
+    public ProdutoDTO atualizar(ProdutoDTO produtoDTO, String categoria, String correlationId) {
+        LogHelper.printLog(Level.INFO, "Atualizando seguro", correlationId, ProdutoAdapter.class);
         ProdutoEntity produtoEntity = consultar(categoria);
         if(Objects.nonNull(produtoEntity)){
             produtoEntity.setNome(produtoDTO.getNome());
             produtoEntity.setPrecoTarifado(produtoDTO.getPrecoTarifado());
             produtoEntity.setPrecoBase(produtoDTO.getPrecoBase());
             ProdutoEntity entitySalvo = produtoRepository.save(produtoEntity);
-            logger.info("Seguro atualizado com sucesso");
+            LogHelper.printLog(Level.INFO, "Seguro atualizado com sucesso", correlationId, ProdutoAdapter.class);
             return ProdutoMapper.INSTANCE.produtoEntityToProdutoDto(entitySalvo);
         }
-        logger.info("Seguro a ser atualizado nao existe na base de dados");
+        LogHelper.printLog(Level.INFO, "Seguro a ser atualizado nao existe na base de dados", correlationId, ProdutoAdapter.class);
         return null;
     }
 
@@ -53,13 +51,13 @@ public class ProdutoAdapter implements ProdutoPort {
 
     @Override
     public Boolean existeProduto(String categoria) {
-        logger.info("Verificando existencia do Seguro");
+        LogHelper.printLog(Level.INFO, "Verificando existencia do Seguro", ProdutoAdapter.class);
         var produtoEntity = consultar(categoria);
         if (Objects.nonNull(produtoEntity)){
-            logger.info("Seguro encontrado");
+            LogHelper.printLog(Level.INFO, "Seguro encontrado", ProdutoAdapter.class);
             return Boolean.TRUE;
         }
-        logger.info("Seguro nao existe");
+        LogHelper.printLog(Level.INFO, "Seguro nao existe", ProdutoAdapter.class);
         return Boolean.FALSE;
     }
 }

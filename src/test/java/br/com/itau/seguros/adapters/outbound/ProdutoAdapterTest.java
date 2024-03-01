@@ -32,7 +32,7 @@ class ProdutoAdapterTest {
 
         Mockito.when(produtoRepository.save(any(ProdutoEntity.class))).thenReturn(produtoEntity);
 
-        ProdutoDTO produtoDTOSalvo = produtoAdapter.cadastrar(produtoDTO);
+        ProdutoDTO produtoDTOSalvo = produtoAdapter.cadastrar(produtoDTO, any(String.class));
         assertEquals("Seguro Automotivo Silver", produtoDTOSalvo.getNome());
         assertEquals(new BigDecimal("50.00"), produtoDTOSalvo.getPrecoBase());
         assertEquals(new BigDecimal("103.20"), produtoDTOSalvo.getPrecoTarifado());
@@ -50,7 +50,7 @@ class ProdutoAdapterTest {
         Mockito.when(produtoRepository.save(any(ProdutoEntity.class))).thenReturn(produtoEntity);
         Mockito.when(produtoRepository.findByCategoriaNome(produtoDTO.getCategoria().name())).thenReturn(produtoEntity);
 
-        ProdutoDTO produtoDTOAtualizado = produtoAdapter.atualizar(produtoDTO, produtoDTO.getCategoria().name());
+        ProdutoDTO produtoDTOAtualizado = produtoAdapter.atualizar(produtoDTO, produtoDTO.getCategoria().name(), any(String.class));
         assertEquals("Seguro Automotivo Silver", produtoDTOAtualizado.getNome());
         assertEquals(new BigDecimal("50.00"), produtoDTOAtualizado.getPrecoBase());
         assertEquals(new BigDecimal("103.20"), produtoDTOAtualizado.getPrecoTarifado());
@@ -69,7 +69,7 @@ class ProdutoAdapterTest {
         Mockito.when(produtoRepository.save(any(ProdutoEntity.class))).thenReturn(produtoEntity);
         Mockito.when(produtoRepository.findByCategoriaNome(produtoDTO.getCategoria().name())).thenReturn(null);
 
-        ProdutoDTO produtoDTONaoAtualizado = produtoAdapter.atualizar(produtoDTO, produtoDTO.getCategoria().name());
+        ProdutoDTO produtoDTONaoAtualizado = produtoAdapter.atualizar(produtoDTO, produtoDTO.getCategoria().name(), any(String.class));
         assertNull(produtoDTONaoAtualizado);
         Mockito.verify(produtoRepository, Mockito.never()).save(any(ProdutoEntity.class));
         Mockito.verify(produtoRepository, Mockito.atLeastOnce()).findByCategoriaNome(produtoDTO.getCategoria().name());
