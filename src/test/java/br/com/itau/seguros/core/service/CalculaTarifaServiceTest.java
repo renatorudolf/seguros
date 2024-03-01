@@ -28,7 +28,7 @@ class CalculaTarifaServiceTest {
         Mockito.when(produtoPort.existeProduto(Categoria.VIDA.name())).thenReturn(Boolean.FALSE);
         Mockito.when(produtoPort.cadastrar(produtoDTO)).thenReturn(produtoDTO);
 
-        var seguroCalculado = calculaTarifaService.calcularSeguro(produtoDTO);
+        var seguroCalculado = calculaTarifaService.cadastrarSeguro(produtoDTO);
         assertEquals("Seguro de Vida Individual", seguroCalculado.getNome());
         assertEquals(new BigDecimal("100.00"), seguroCalculado.getPrecoBase());
         assertEquals(new BigDecimal("103.20"), seguroCalculado.getPrecoTarifado());
@@ -43,7 +43,7 @@ class CalculaTarifaServiceTest {
         var produtoDTO = ProdutoMapper.INSTANCE.produtoRequestToProdutoDto(ProdutoUtil.getProdutoRequest());
         Mockito.when(produtoPort.existeProduto(Categoria.VIDA.name())).thenReturn(Boolean.TRUE);
         Mockito.when(produtoPort.cadastrar(produtoDTO)).thenReturn(produtoDTO);
-        assertNull(calculaTarifaService.calcularSeguro(produtoDTO));
+        assertNull(calculaTarifaService.cadastrarSeguro(produtoDTO));
         Mockito.verify(produtoPort, Mockito.atLeastOnce()).existeProduto(Categoria.VIDA.name());
         Mockito.verify(produtoPort, Mockito.never()).cadastrar(produtoDTO);
     }

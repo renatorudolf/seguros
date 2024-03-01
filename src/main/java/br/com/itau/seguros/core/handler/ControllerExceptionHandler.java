@@ -1,5 +1,6 @@
 package br.com.itau.seguros.core.handler;
 
+import br.com.itau.seguros.core.logger.LogHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,9 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<ErroResponse> handleResponseStatusException(ResponseStatusException exception) {
-        log.warn(exception.getReason());
-        return ResponseEntity.status(exception.getBody().getStatus()).body(new ErroResponse(String.valueOf(exception.getBody().getStatus()), exception.getBody().getDetail()));
+        var erroResponse = new ErroResponse(String.valueOf(exception.getBody().getStatus()), exception.getBody().getDetail());
+        log.error(LogHelper.convertObjectToJson(erroResponse));
+        return ResponseEntity.status(exception.getBody().getStatus()).body(erroResponse);
     }
 
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
@@ -35,8 +37,9 @@ public class ControllerExceptionHandler {
         List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
         fieldErrors.forEach(e -> {
             String message = messageSource.getMessage(e, LocaleContextHolder.getLocale());
-            ErroResponse erroDeFormularioDTO = new ErroResponse(e.getField(), message);
-            dto.add(erroDeFormularioDTO);
+            ErroResponse erroResponse = new ErroResponse(e.getField(), message);
+            log.error(LogHelper.convertObjectToJson(erroResponse));
+            dto.add(erroResponse);
         });
         return dto;
     }
@@ -44,6 +47,8 @@ public class ControllerExceptionHandler {
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErroResponse> handle(Exception exception){
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErroResponse(String.valueOf(HttpStatus.BAD_REQUEST.value()), "Campo categoria invalido"));
+        var erroResponse = new ErroResponse(String.valueOf(HttpStatus.BAD_REQUEST.value()), "Campo categoria invalido");
+        log.error(LogHelper.convertObjectToJson(erroResponse));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erroResponse);
     }
 }

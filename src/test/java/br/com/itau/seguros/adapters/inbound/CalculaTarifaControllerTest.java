@@ -33,24 +33,24 @@ class CalculaTarifaControllerTest {
     @Test
     void deveCalcularImpostoEGravarNaBaseComSucessoTest() throws Exception {
         var produtoDTO = ProdutoMapper.INSTANCE.produtoRequestToProdutoDto(ProdutoUtil.getProdutoRequest());
-        Mockito.when(calculaTarifaService.calcularSeguro(any(ProdutoDTO.class))).thenReturn(produtoDTO);
+        Mockito.when(calculaTarifaService.cadastrarSeguro(any(ProdutoDTO.class))).thenReturn(produtoDTO);
         String requestBody = objectMapper.writeValueAsString(ProdutoUtil.getProdutoRequest());
         mockMvc.perform(post("/seguro").contentType("application/json")
                         .content(requestBody))
                 .andExpect(status().isCreated())
                 .andDo(print());
-        Mockito.verify(calculaTarifaService, Mockito.atLeastOnce()).calcularSeguro(any(ProdutoDTO.class));
+        Mockito.verify(calculaTarifaService, Mockito.atLeastOnce()).cadastrarSeguro(any(ProdutoDTO.class));
     }
 
     @Test
     void deveLancarExcecaoAoGravarProdutoJaCadastradoTest() throws Exception {
-        Mockito.when(calculaTarifaService.calcularSeguro(any(ProdutoDTO.class))).thenReturn(null);
+        Mockito.when(calculaTarifaService.cadastrarSeguro(any(ProdutoDTO.class))).thenReturn(null);
         String requestBody = objectMapper.writeValueAsString(ProdutoUtil.getProdutoRequest());
         mockMvc.perform(post("/seguro").contentType("application/json")
                         .content(requestBody))
                 .andExpect(status().isUnprocessableEntity())
                 .andDo(print());
-        Mockito.verify(calculaTarifaService, Mockito.atLeastOnce()).calcularSeguro(any(ProdutoDTO.class));
+        Mockito.verify(calculaTarifaService, Mockito.atLeastOnce()).cadastrarSeguro(any(ProdutoDTO.class));
     }
 
     @Test
@@ -62,7 +62,7 @@ class CalculaTarifaControllerTest {
                         .content(requestBody))
                 .andExpect(status().isBadRequest())
                 .andDo(print());
-        Mockito.verify(calculaTarifaService, Mockito.never()).calcularSeguro(any(ProdutoDTO.class));
+        Mockito.verify(calculaTarifaService, Mockito.never()).cadastrarSeguro(any(ProdutoDTO.class));
     }
 
     @Test
@@ -74,7 +74,7 @@ class CalculaTarifaControllerTest {
                         .content(requestBody))
                 .andExpect(status().isBadRequest())
                 .andDo(print());
-        Mockito.verify(calculaTarifaService, Mockito.never()).calcularSeguro(any(ProdutoDTO.class));
+        Mockito.verify(calculaTarifaService, Mockito.never()).cadastrarSeguro(any(ProdutoDTO.class));
     }
 
     @Test
@@ -86,7 +86,7 @@ class CalculaTarifaControllerTest {
                         .content(requestBody))
                 .andExpect(status().isBadRequest())
                 .andDo(print());
-        Mockito.verify(calculaTarifaService, Mockito.never()).calcularSeguro(any(ProdutoDTO.class));
+        Mockito.verify(calculaTarifaService, Mockito.never()).cadastrarSeguro(any(ProdutoDTO.class));
     }
 
     @Test
@@ -98,7 +98,7 @@ class CalculaTarifaControllerTest {
                         .content(requestBody))
                 .andExpect(status().isBadRequest())
                 .andDo(print());
-        Mockito.verify(calculaTarifaService, Mockito.never()).calcularSeguro(any(ProdutoDTO.class));
+        Mockito.verify(calculaTarifaService, Mockito.never()).cadastrarSeguro(any(ProdutoDTO.class));
     }
 
     @Test
@@ -110,7 +110,7 @@ class CalculaTarifaControllerTest {
                         .content(requestBody))
                 .andExpect(status().isBadRequest())
                 .andDo(print());
-        Mockito.verify(calculaTarifaService, Mockito.never()).calcularSeguro(any(ProdutoDTO.class));
+        Mockito.verify(calculaTarifaService, Mockito.never()).cadastrarSeguro(any(ProdutoDTO.class));
     }
 
     @Test
@@ -122,7 +122,7 @@ class CalculaTarifaControllerTest {
                         .content(requestBody))
                 .andExpect(status().isBadRequest())
                 .andDo(print());
-        Mockito.verify(calculaTarifaService, Mockito.never()).calcularSeguro(any(ProdutoDTO.class));
+        Mockito.verify(calculaTarifaService, Mockito.never()).cadastrarSeguro(any(ProdutoDTO.class));
     }
 
     @Test
@@ -146,7 +146,7 @@ class CalculaTarifaControllerTest {
                         .content(requestBody))
                 .andExpect(status().isBadRequest())
                 .andDo(print());
-        Mockito.verify(calculaTarifaService, Mockito.never()).calcularSeguro(any(ProdutoDTO.class));
+        Mockito.verify(calculaTarifaService, Mockito.never()).cadastrarSeguro(any(ProdutoDTO.class));
     }
 
 
@@ -159,7 +159,7 @@ class CalculaTarifaControllerTest {
                         .content(requestBody))
                 .andExpect(status().isBadRequest())
                 .andDo(print());
-        Mockito.verify(calculaTarifaService, Mockito.never()).calcularSeguro(any(ProdutoDTO.class));
+        Mockito.verify(calculaTarifaService, Mockito.never()).cadastrarSeguro(any(ProdutoDTO.class));
     }
 
 
@@ -172,7 +172,7 @@ class CalculaTarifaControllerTest {
                         .content(requestBody))
                 .andExpect(status().isBadRequest())
                 .andDo(print());
-        Mockito.verify(calculaTarifaService, Mockito.never()).calcularSeguro(any(ProdutoDTO.class));
+        Mockito.verify(calculaTarifaService, Mockito.never()).cadastrarSeguro(any(ProdutoDTO.class));
     }
 
     @Test
@@ -184,7 +184,7 @@ class CalculaTarifaControllerTest {
                         .content(requestBody))
                 .andExpect(status().isBadRequest())
                 .andDo(print());
-        Mockito.verify(calculaTarifaService, Mockito.never()).calcularSeguro(any(ProdutoDTO.class));
+        Mockito.verify(calculaTarifaService, Mockito.never()).cadastrarSeguro(any(ProdutoDTO.class));
     }
 
     @Test
@@ -196,7 +196,7 @@ class CalculaTarifaControllerTest {
                         .content(requestBody))
                 .andExpect(status().isBadRequest())
                 .andDo(print());
-        Mockito.verify(calculaTarifaService, Mockito.never()).calcularSeguro(any(ProdutoDTO.class));
+        Mockito.verify(calculaTarifaService, Mockito.never()).cadastrarSeguro(any(ProdutoDTO.class));
     }
 
     @Test
@@ -208,7 +208,7 @@ class CalculaTarifaControllerTest {
                         .content(requestBody))
                 .andExpect(status().isBadRequest())
                 .andDo(print());
-        Mockito.verify(calculaTarifaService, Mockito.never()).calcularSeguro(any(ProdutoDTO.class));
+        Mockito.verify(calculaTarifaService, Mockito.never()).cadastrarSeguro(any(ProdutoDTO.class));
     }
 
     @Test
