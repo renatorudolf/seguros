@@ -54,6 +54,9 @@ curl -d '{"nome":"Seguro de Vida Plus","categoria":"VIDA","preco_base":"150.00"}
 Obrigado pela oportunidade.
 
 
+Link do desafio: https://github.com/itausegdev/backend-challenge/tree/main
+
+
     
 
 
